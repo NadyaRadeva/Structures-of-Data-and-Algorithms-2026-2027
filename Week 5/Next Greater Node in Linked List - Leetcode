@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        stack<int> st;
+
+        int counter = 0;
+
+        ListNode* current = head;
+
+        while(current != nullptr) {
+            current = current->next;
+            ++counter;
+        }
+
+        vector<int> nodes(counter);
+
+        int i = 0;
+        current = head;
+
+        while(current != nullptr) {
+            nodes[i] = current->val;
+            current = current->next;
+            ++i;
+        }
+
+        vector<int> res(counter, 0);
+
+        for(int i = 0; i < counter; ++i) {
+            while(!st.empty() && nodes[i] > nodes[st.top()]) {
+                int index = st.top();
+                st.pop();
+
+                res[index] = nodes[i];
+            }
+
+            st.push(i);
+        }
+
+        return res;
+    }
+};
